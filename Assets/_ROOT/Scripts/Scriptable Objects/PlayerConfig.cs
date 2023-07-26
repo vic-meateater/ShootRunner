@@ -7,5 +7,6 @@ namespace Client.Scriptable_Objects
     public class PlayerConfig: ScriptableObject
     {
         [field: SerializeField] public GameObject Prefab { get; private set; }
+        [field: SerializeField] public float MoveSpeed { get; private set; }
     }
 }

@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Prefab>k__BackingField: {fileID: 897001462169723949, guid: 91ca859634ccd76459c8ea430491c080,
     type: 3}
+  <MoveSpeed>k__BackingField: 1

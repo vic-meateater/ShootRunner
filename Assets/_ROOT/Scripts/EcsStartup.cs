@@ -4,14 +4,14 @@ using Leopotam.EcsLite.Di;
 using UnityEngine;
 
 namespace Client {
-    sealed class EcsStartup : MonoBehaviour {
+    public sealed class EcsStartup : MonoBehaviour {
         
-        [SerializeField] private SharedData _sharedData; 
-        
-        EcsWorld _world;        
-        IEcsSystems _systems;
+        [SerializeField] private SharedData _sharedData;
 
-        void Start () {
+        private EcsWorld _world;
+        private IEcsSystems _systems;
+
+        private void Start () {
             _world = new EcsWorld ();
             _systems = new EcsSystems (_world);
 
@@ -20,6 +20,7 @@ namespace Client {
             _systems
                 .Add(new TimeSystem())
                 .Add(new PlayerInitSystem())
+                .Add(new AutoMoveRunSystem())
                 // register your systems here, for example:
                 // .Add (new TestSystem1 ())
                 // .Add (new TestSystem2 ())
@@ -31,16 +32,16 @@ namespace Client {
                 // .Add (new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem ("events"))
                 .Add (new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem ())
 #endif
-                .Inject(timeService,_sharedData)
-                .Init ();
+                .Inject(timeService, _sharedData)
+                .Init();
         }
 
-        void Update () {
+       private  void Update () {
             // process systems here.
             _systems?.Run ();
         }
 
-        void OnDestroy () {
+        private void OnDestroy () {
             if (_systems != null) {
                 // list of custom worlds will be cleared
                 // during IEcsSystems.Destroy(). so, you

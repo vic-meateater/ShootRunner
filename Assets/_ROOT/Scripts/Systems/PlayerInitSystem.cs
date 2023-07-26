@@ -10,6 +10,7 @@ namespace Client
     {
         private readonly EcsPoolInject<UnitComponent> _unitPool = default;
         private readonly EcsPoolInject<ControlledByPlayer> _controlledByPlayerPool = default;
+        private readonly EcsPoolInject<MovingComponent> _movingComponentPool = default;
 
         private readonly EcsCustomInject<SharedData> _sharedData = default;
 
@@ -18,6 +19,7 @@ namespace Client
             var playerEntity = _unitPool.Value.GetWorld().NewEntity();
 
             ref var unit = ref _unitPool.Value.Add(playerEntity);
+            ref var moving = ref _movingComponentPool.Value.Add(playerEntity);
             _controlledByPlayerPool.Value.Add(playerEntity);
 
 
@@ -26,9 +28,10 @@ namespace Client
             var playerGo = Object.Instantiate(player.Prefab, spawnPoint, Quaternion.identity);
 
             unit.Position = playerGo.transform.position;
-            unit.Rotation = Quaternion.identity;
+            unit.Rotation = playerGo.transform.rotation;
             unit.Transform = playerGo.transform;
-            
+            moving.Direction = playerGo.transform.forward;
+            unit.MoveSpeed = player.MoveSpeed;
         }
     }
 }
